@@ -1,18 +1,26 @@
 const express = require("express");
 const subscribersController = require("../controllers/subscribersController");
-const subscribersModel = require("../models/subscribersModel");
-
 const router = express.Router();
 
-router.get("/", subscribersController.getAll)
-router.get("/:id", subscribersController.getById)
-router.post("/", (request, response) => {
+router.get("/", subscribersController.getAll);
 
-})
-router.patch("/:id", (request, response) => {
+//# subscribersController.getSubscriber is a middleware to link request with id
+// request.subscriber = subscriberGotFromDB
+router.get(
+  "/:id",
+  subscribersController.getSubscriber,
+  subscribersController.getById
+);
+router.post("/", subscribersController.create);
 
-})
-router.delete("/:id", (request, response) => {
-
-})
-module.exports = router
+router.patch(
+  "/:id",
+  subscribersController.getSubscriber,
+  subscribersController.update
+);
+router.delete(
+  "/:id",
+  subscribersController.getSubscriber,
+  subscribersController.remove
+);
+module.exports = router;
